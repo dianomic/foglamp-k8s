@@ -9,4 +9,22 @@ spec:
                 - name: foglamp
                   image: 54.204.128.201:5000/foglamp:nightly-ubuntu1804
                   ports:
-                  - containerPort: 80
+                        - name: api
+                          containerPort: 8081
+                          protocol: TCP
+                        - name: https
+                          containerPort: 1995
+                          protocol: TCP
+                        - name: http
+                          containerPort: 80
+                          protocol: TCP
+                  env:
+                        - name: FOGLAMP_ROOT
+                          value: /usr/local/foglamp
+                  volumeMounts:
+                        - mountPath: /usr/local/foglamp/data
+                          name: foglamp-data
+        volumes:
+                - name: foglamp-data
+                  persistentVolumeClaim:
+                        claimName: foglamp-data

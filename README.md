@@ -26,7 +26,7 @@ So based on the above study we chose to proceed with K3s for our problem stateme
 
 ## Environment
 
-Three Ubuntu 18.04 instances with 4 GB RAM (t2.mediumAWS instances) are used for the setup of fogman and foglamp
+Three Ubuntu 18.04 instances with 4 GB RAM (t2.medium AWS instances) are used for the setup of fogman and foglamp
 
 - One main node
 - Two worker nodes for fogman and foglamp each
@@ -131,17 +131,18 @@ Created symlink /etc/systemd/system/multi-user.target.wants/k3s-agent.service â†
 ```
 ## Verify the cluster
 
+Run following commands on master node
 ```
 ubuntu@ip-10-0-0-48 :~$ sudo kubectl cluster-info
-Kubernetes control planeis running athttps://127.0.0.1:
+Kubernetes control plane is running athttps://127.0.0.1:
 CoreDNSis running athttps://127.0.0.1:6443/api/v1/namespaces/kube-system/services/kube-dns:dns/proxy
-Metrics-serveris running at
+Metrics-server is running at
 https://127.0.0.1:6443/api/v1/namespaces/kube-system/services/https:metrics-server:https/proxy
 To further debug and diagnose cluster problems, use 'kubectl cluster-info dump'.
 ```
 
 ```
-ubuntu@ip- 10 - 0 - 0 - 48 :~$ sudo kubectl get nodes
+ubuntu@ip-10-0-0-48 :~$ sudo kubectl get nodes
 NAME STATUS ROLES AGE VERSION
 ip-10-0-0-48 Ready control-plane,master 105m v1.24.6+k3s
 ip-10-0-0-253 Ready <none> 2m29s v1.24.6+k3s
@@ -154,28 +155,51 @@ Add following lines in all the nodes (master + worker) in
 
 ```
 mirrors:
-"54.204.128.201:5000":
-endpoint:
-
-- "http://54.204.128.201:5000"
+    "54.204.128.201:5000":
+      endpoint:
+        - "http://54.204.128.201:5000"
 ```
-After adding restart k3s service
+After adding, restart k3s services and check the status of services
 
-Master: `sudo systemctl restart k3s`
+Master:
+> sudo systemctl restart k3s
+> sudo systemctl status k3s
 
-Worker: `sudo systemctl restart k3s-agent`
+Worker:
+> sudo systemctl restart k3s-agent
+> sudo systemctl status k3s-agent
+
 
 Reference: https://docs.k3s.io/installation/private-registry#without-tls
 
 ## Deployment
 
-Get the manifest files of both fogman and foglamp from https://github.com/nerdapplabs/k8s.git
+Get the manifest files of both FogLAMP Manage and FogLAMP from https://github.com/nerdapplabs/k8s.git
 
 Below command will create resources mentioned in yaml file of fogman and foglamp
 
+### FogLAMP
+
+Create persistent volume
+> sudo kubectl apply -f foglamp-pvc.yaml
+
+Create network services
+> sudo kubectl apply -f foglamp-service.yaml
+
+Create FogLAMP resources
+> sudo kubectl apply -f foglamp.yaml
+
+### FogLAMP Manage
+
+Create persistent volume
+> sudo kubectl apply -f fogman-pvc.yaml
+
+Create network services
+> sudo kubectl apply -f fogman-service.yaml
+
+Create FogLAMP Manage resources
 > sudo kubectl apply -f fogman.yaml
 
-> sudo kubectl apply -f foglamp.yaml
 
 ## Expose ports
 
@@ -199,9 +223,13 @@ With the above config foglamp is available on port 30186.
 
 - Describe commands with verbose output 
     > sudo kubectl describe pods fogman-pod
-    > kubectl describe nodes my-node
+    
+    > sudo kubectl describe nodes my-node
 
-- Creates and updates resources in a cluster
+- Get a shell to the running container
+    > sudo kubectl exec --stdin --tty foglamp-pod -- /bin/bash
+
+- Dry run the changes of a yaml file
     > sudo kubectl apply -f fogman.yaml --dry-run=client
 
 - Get commands with basic output

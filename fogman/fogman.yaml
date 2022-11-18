@@ -14,14 +14,23 @@ spec:
                   - name: POSTGRES_USER
                     value: fogman
                   - name: POSTGRES_PASSWORD
-                    value: fogman
+                    valueFrom:
+                      secretKeyRef:
+                        name: fogman-auth
+                        key: POSTGRES_PASSWORD
                   - name: PKG_VERSION
                     value: nightly
                   - name: ARCHIVE_REPO_USERNAME
                     value: dianomic
                   - name: ARCHIVE_REPO_PASSWORD
-                    value: Foglamp200
-                    #args: ["$(PKG_VERSION) $(ARCHIVE_REPO_USERNAME) $(ARCHIVE_REPO_PASSWORD)"]      
+                    valueFrom:
+                      secretKeyRef:
+                        name: fogman-auth
+                        key: ARCHIVE_REPO_PASSWORD
+                  volumeMounts:
+                  - mountPath: /var/lib/postgresql/data
+                    name: foglamp-manage-db-data
+                    subPath: postgres
                 - name: fogman
                   image: 54.204.128.201:5000/foglamp-manage:test-k8s
                   ports:
@@ -33,4 +42,12 @@ spec:
                     value: 127.0.0.1
                   - name: FOGMAN_ENV
                     value: container
-                    #args: ["$(PKG_VERSION) $(ARCHIVE_REPO_USERNAME) $(ARCHIVE_REPO_PASSWORD)"]
+
+
+        volumes:
+        - name: foglamp-manage-db-data
+          persistentVolumeClaim:
+            claimName: foglamp-manage-db-data
+        - name: foglamp-manage-data
+          persistentVolumeClaim:
+            claimName: foglamp-manage-data
