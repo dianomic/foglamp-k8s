@@ -2,11 +2,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: foglamp-manage-db-data
-  labels:
-    app.kubernetes.io/component: foglamp-manage-db-data
-    app.kubernetes.io/instance: foglamp-manage-db-data
-    app.kubernetes.io/name: foglamp-manage-db-data
+  name: foglamp-manage-db
 spec:
   accessModes:
   - ReadWriteOnce

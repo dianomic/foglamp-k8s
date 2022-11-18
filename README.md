@@ -172,6 +172,19 @@ Worker:
 
 Reference: https://docs.k3s.io/installation/private-registry#without-tls
 
+## Editing Secrets
+
+In the setup of fogman, we have used secrets to store the default passwords of ARCHIVE_REPO_PASSWORD and POSTGRES_PASSWORD. If you want to use any passwords other than default you may have to edit fogman-secret.yaml and add your passwords in it.
+
+You cannot add simple string of password directly in the secret file, you have to convert it to base64 string and then add this encoded string in fogman-secret.yaml. Example for encoding the password
+
+> echo -n 'testPassword' | base64
+
+```
+ubuntu@ip-10-0-0-53:~/test/k8s/fogman$ echo -n 'testPassword' | base64
+dGVzdFBhc3N3b3Jk
+```
+
 ## Deployment
 
 Get the manifest files of both FogLAMP Manage and FogLAMP from https://github.com/nerdapplabs/k8s.git
@@ -190,6 +203,9 @@ Create FogLAMP resources
 > sudo kubectl apply -f foglamp.yaml
 
 ### FogLAMP Manage
+
+Create secrets
+> sudo kubectl apply -f fogman-secret.yaml
 
 Create persistent volume
 > sudo kubectl apply -f fogman-pvc.yaml
