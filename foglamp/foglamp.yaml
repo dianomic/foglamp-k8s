@@ -1,29 +1,40 @@
-apiVersion: v1
-kind: Pod
+apiVersion: apps/v1
+kind: Deployment
 metadata:
-        name: foglamp-pod
+        name: foglamp-deployment
         labels:
-                env: prod
+            name: foglamp-deployment
 spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: foglamp-deployment
+      name: foglamp-deployment
+  template:
+    metadata:
+      labels:
+        name: foglamp-deployment
+        app: foglamp-deployment
+    spec:    
         containers:
-                - name: foglamp
-                  image: 54.204.128.201:5000/foglamp:nightly-ubuntu1804
-                  ports:
-                        - name: api
-                          containerPort: 8081
-                          protocol: TCP
-                        - name: https
-                          containerPort: 1995
-                          protocol: TCP
-                        - name: http
-                          containerPort: 80
-                          protocol: TCP
-                  env:
-                        - name: FOGLAMP_ROOT
-                          value: /usr/local/foglamp
-                  volumeMounts:
-                        - mountPath: /usr/local/foglamp/data
-                          name: foglamp-data
+            - name: foglamp
+              image: 54.204.128.201:5000/foglamp:nightly-ubuntu1804
+              ports:
+                    - name: api
+                      containerPort: 8081
+                      protocol: TCP
+                    - name: https
+                      containerPort: 1995
+                      protocol: TCP
+                    - name: http
+                      containerPort: 80
+                      protocol: TCP
+              env:
+                    - name: FOGLAMP_ROOT
+                      value: /usr/local/foglamp
+              volumeMounts:
+                    - mountPath: /usr/local/foglamp/data
+                      name: foglamp-data
         volumes:
                 - name: foglamp-data
                   persistentVolumeClaim:
