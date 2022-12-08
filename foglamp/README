@@ -1,0 +1,8 @@
+Step 1: Build contianer image and load to artifact repository
+cd docker
+docker build -t us-central1-docker.pkg.dev/foglamp/demo-repo/foglamp:v1 .
+docker push us-central1-docker.pkg.dev/foglamp/demo-repo/foglamp:v1
+
+Step 2: Deploy in k8
+cd manifests
+kubectl apply -f .

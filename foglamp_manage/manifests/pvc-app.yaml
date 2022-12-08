@@ -1,0 +1,17 @@
+# Create Volume Claim
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: foglamp-manage-data
+  #namespace: foglamp-manage
+  labels:
+    app.kubernetes.io/component: foglamp-manage-data
+    app.kubernetes.io/instance: foglamp-manage-data
+    app.kubernetes.io/name: foglamp-manage-data
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+  volumeMode: Filesystem

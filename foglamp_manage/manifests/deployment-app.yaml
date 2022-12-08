@@ -1,0 +1,62 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: foglamp-manage-app
+    name: foglamp-manage-app
+  name: foglamp-manage-app
+  #namespace: foglamp-manage
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: foglamp-manage-app
+      name: foglamp-manage-app
+  template:
+    metadata:
+      labels:
+        name: foglamp-manage-app
+        app: foglamp-manage-app
+    spec:
+      containers:
+      - name: foglamp-manage-app
+        image: us-central1-docker.pkg.dev/foglamp/demo-repo/foglamp-manage:v1
+        imagePullPolicy: Always
+        ports:
+        - name: 5000tcp2
+          containerPort: 5000
+          protocol: TCP
+        - name: 5001tcp2
+          containerPort: 5001
+          protocol: TCP
+        - name: 5002tcp2
+          containerPort: 5002
+          protocol: TCP
+        env:
+        - name: POSTGRES_USER
+          valueFrom:
+            secretKeyRef:
+                name: foglamp-manage-db-auth
+                key: POSTGRES_USER
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+                name: foglamp-manage-db-auth
+                key: POSTGRES_PASSWORD
+        - name: POSTGRES_HOST
+          value: $(FOGLAMP_MANAGE_DB_SERVICE_HOST)
+        - name: FOGMAN_ROOT
+          value: /usr/local/fogman
+        - name: FOGMAN_DB_HOST
+          value: foglamp-manage-db
+        - name: FOGMAN_ENV
+          value: container
+            #volumeMounts:
+            #- mountPath: /usr/local/fogman/data
+            #name: foglamp-manage-data
+      volumes:
+      - name: foglamp-manage-data
+        persistentVolumeClaim:
+          claimName: foglamp-manage-data
+            #imagePullSecrets:
+            #- name: jfrog

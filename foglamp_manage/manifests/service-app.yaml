@@ -1,0 +1,37 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: foglamp-manage-app
+  #namespace: foglamp-manage
+spec:
+  type: ClusterIP
+  ports:
+    - name: 5000tcp2
+      port: 5000
+      targetport: 5000
+      protocol: TCP
+    - name: 5001tcp2
+      port: 5001
+      targetport: 5001
+      protocol: TCP
+    - name: 5002tcp2
+      port: 5002
+      targetport: 5002
+      protocol: TCP
+  selector:
+    app: foglamp-manage-app
+spec:
+  type: LoadBalancer
+  ports:
+    - name: 5000tcp2
+      port: 5000
+      protocol: TCP
+    - name: 5001tcp2
+      port: 5001
+      protocol: TCP
+    - name: 5002tcp2
+      port: 5002
+      protocol: TCP
+  selector:
+    app: foglamp-manage-app

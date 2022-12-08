@@ -1,0 +1,12 @@
+Step 1: Build contianer image and load to artifact repository
+cd docker/app
+docker build --build-arg PKG_VERSION=1.1.0 --build-arg ARCHIVE_REPO_USERNAME=dianomic --build-arg ARCHIVE_REPO_PASSWORD=Foglamp200 -t us-central1-docker.pkg.dev/foglamp/demo-repo/foglamp-manage:v1 .
+docker push us-central1-docker.pkg.dev/foglamp/demo-repo/foglamp-manage:v1
+cd ../db
+docker build --build-arg PKG_VERSION=1.1.0 --build-arg ARCHIVE_REPO_USERNAME=dianomic --build-arg ARCHIVE_REPO_PASSWORD=Foglamp200 -t us-central1-docker.pkg.dev/foglamp/demo-repo/foglamp-manage-db:v1 .
+docker push us-central1-docker.pkg.dev/foglamp/demo-repo/foglamp-manage-db:v1
+cd ../..
+
+Step 2: Deploy in k8
+cd manifests
+kubectl apply -f .
