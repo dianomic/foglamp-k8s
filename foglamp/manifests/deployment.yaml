@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
       - name: foglamp-deployment
-        image: us-central1-docker.pkg.dev/foglamp/demo-repo/foglamp:v1
+        image: 54.204.128.201:5000/foglamp:nightly-ubuntu1804
         imagePullPolicy: Always
         ports:
         - name: 6683tcp2

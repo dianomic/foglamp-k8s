@@ -19,7 +19,8 @@ spec:
     targetPort: 80
     protocol: TCP
   selector:
-    app: foglamp
+    app: foglamp-deployment
+    name: foglamp-deployment
 spec:
   type: LoadBalancer
   ports:
@@ -33,4 +34,5 @@ spec:
     port: 80
     targetPort: 80
   selector:
-    app: foglamp
+    app: foglamp-deployment
+    name: foglamp-deployment
