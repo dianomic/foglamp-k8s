@@ -1,20 +1,18 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-        name: foglamp-deployment
-        labels:
-            name: foglamp-deployment
+  name: foglamp-deployment
+  labels:
+      name: foglamp
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: foglamp-deployment
-      name: foglamp-deployment
+      name: foglamp
   template:
     metadata:
       labels:
-        name: foglamp-deployment
-        app: foglamp-deployment
+        name: foglamp
     spec:    
         containers:
             - name: foglamp
