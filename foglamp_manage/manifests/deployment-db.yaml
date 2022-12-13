@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
       - name: foglamp-manage-db
-        image: us-central1-docker.pkg.dev/foglamp/demo-repo/foglamp-manage-db:v1
+        image: 54.204.128.201:5000/foglamp-manage-db:latest-ubuntu1804
         imagePullPolicy: IfNotPresent
         ports:
         - name: 5432tcp2

@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
       - name: foglamp-manage-app
-        image: us-central1-docker.pkg.dev/foglamp/demo-repo/foglamp-manage:v1
+        image: 54.204.128.201:5000/foglamp-manage:latest-ubuntu1804
         imagePullPolicy: Always
         ports:
         - name: 5000tcp2

@@ -35,3 +35,4 @@ spec:
       protocol: TCP
   selector:
     app: foglamp-manage-app
+    name: foglamp-manage-app
