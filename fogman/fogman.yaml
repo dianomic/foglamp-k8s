@@ -1,20 +1,18 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-        name: fogman-deployment
-        labels:
-                env: prod
+  name: fogman-deployment
+  labels:
+    name: foglamp-manage
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: foglamp-manage
       name: foglamp-manage
   template:
     metadata:
       labels:
         name: foglamp-manage
-        app: foglamp-manage
     spec:    
         containers:
             - name: fogman-db
@@ -53,8 +51,6 @@ spec:
                 value: 127.0.0.1
               - name: FOGMAN_ENV
                 value: container
-
-
         volumes:
         - name: foglamp-manage-db
           persistentVolumeClaim:
