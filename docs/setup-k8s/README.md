@@ -26,11 +26,10 @@ So based on the above study we chose to proceed with K3s for our problem stateme
 
 ## Environment
 
-Three Ubuntu 18.04 instances with 4 GB RAM (t2.medium AWS instances) are used for the setup of fogman and foglamp
+- Single node setup: Only one node is configured to setup Kubernetes master, FogLAMP and FogLAMP Manage.
 
-- One main node
-- Two worker nodes for fogman and foglamp each
-
+- Multi node setup: Multiple seperate nodes are configured to setup Kubernetes master, FogLAMP and FogLAMP Manage.
+In this documentation we have setup three Ubuntu 18.04 instances with 4 GB RAM (t2.medium AWS instances) - One master node and two worker nodes for fogman and foglamp each.
 
 ## Prerequisites
 
@@ -41,6 +40,10 @@ Add the IP address along with tag in the /etc/hosts file on all the machines (bo
 34.232.69.227 k3s-worker
 52.201.228.224k3s-worker
 ```
+Notes:
+- The IP address used here is public IP address of the AWS instances.
+- For single node setup IP address will be same for master and worker nodes.
+
 ## Master Configuration
 
 Install k3s using following command
@@ -108,6 +111,8 @@ k3s_token="K10a6a44eddb2e32b8616c160084a1ad110b247f99153f17875c74677dbd33ff6be::
 
 Install k3s-agent on worker node
 
+Please note that in single node setup k3s-agent must not be installed.
+
 ```
 ubuntu@ip-10-0-0-253 :~$ curl -sfL https://get.k3s.io| K3S_URL=${k3s_url} K3S_TOKEN=${k3s_token} sh -
 [INFO] Finding release for channel stable
@@ -173,7 +178,7 @@ Worker:
 Reference: https://docs.k3s.io/installation/private-registry#without-tls
 
 
-
+Please note that in case of single node setup this should be done on only the master node.
 
 
 
