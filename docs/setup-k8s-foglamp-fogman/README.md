@@ -1,8 +1,10 @@
+# Setup FogLAMP Manage and FogLAMP in Kubernetes
+
+Note: Kubernetes must be setup and running before performing the following the steps. Documentations for setup of k8s can be found [here.](../setup-k8s/README.md)
+
 ## Deployment
 
-Note: Kubernetes must be setup and running before performing the following the steps. Documentations for setup of k8s can be found at docs/setup-k8s.
-
-Get the manifest files of both FogLAMP Manage and FogLAMP from https://github.com/nerdapplabs/k8s.git
+Get the manifest files of both FogLAMP Manage and FogLAMP from [here.](../../)
 
 Following commands will create resources mentioned in yaml file of fogman and foglamp
 
@@ -18,6 +20,8 @@ Create FogLAMP resources
 > sudo kubectl apply -f foglamp.yaml
 
 ### FogLAMP Manage
+
+If you would like to edit the secrets please read [Editing Secrets](#editing-secrets) section.
 
 Create secrets
 > sudo kubectl apply -f fogman-secret.yaml
@@ -85,9 +89,34 @@ Create FogLAMP Manage resources
     ubuntu@ip:~$ 
     ```
 
+- Get all endpoints
+  > sudo kubectl get endpoints
+
+    Sample Output:
+    ```
+    ubuntu@ip:~$ sudo kubectl get endpoints
+    NAME             ENDPOINTS                                         AGE
+    kubernetes       10.0.0.53:6443                                    32d
+    foglamp          10.42.1.44:8081,10.42.1.44:80,10.42.1.44:1995     22h
+    foglamp-manage   10.42.2.33:5000,10.42.2.33:5001,10.42.2.33:5002   22h
+    ubuntu@ip:~$ 
+    ```
+
+    Please note that if ENDPOINTS are `none`, there may be configuration issue in manifests file. Check all labels are matching in the manifest files.
 
 
+## Editing Secrets
 
+In the setup of fogman, we have used secrets to store the default passwords of ARCHIVE_REPO_PASSWORD and POSTGRES_PASSWORD. If you want to use any passwords other than default you may have to edit fogman-secret.yaml and add your passwords in it.
+
+You cannot add simple string of password directly in the secret file, you have to convert it to base64 string and then add this encoded string in fogman-secret.yaml. Example for encoding the password
+
+> echo -n 'testPassword' | base64
+
+```
+ubuntu@ip:~/test/k8s/fogman$ echo -n 'testPassword' | base64
+dGVzdFBhc3N3b3Jk
+```
 
 
 
