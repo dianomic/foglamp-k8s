@@ -10,6 +10,11 @@ Following commands will create resources mentioned in yaml file of fogman and fo
 
 ### FogLAMP
 
+Create volumes, services and resources using following command
+> sudo kubectl apply -f .
+
+Or, if you want to create them separately use below commands 
+
 Create persistent volume
 > sudo kubectl apply -f foglamp-pvc.yaml
 
@@ -21,7 +26,7 @@ Create FogLAMP resources
 
 ### FogLAMP Manage
 
-If you would like to edit the secrets please read [Editing Secrets](#editing-secrets) section.
+In FogLAMP Manage, secrets are used to store the passwords of archive repo and postgres as an encrypted text. Default passwords are used and in case you would like to use custom passwords please read [Editing Secrets](#editing-secrets) section.
 
 Create secrets
 > sudo kubectl apply -f fogman-secret.yaml

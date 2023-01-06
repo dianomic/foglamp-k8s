@@ -38,13 +38,15 @@ Add the IP address along with tag in the /etc/hosts file on all the machines (bo
 ```
 100.25.190.74 k3s-master
 34.232.69.227 k3s-worker
-52.201.228.224k3s-worker
+52.201.228.224 k3s-worker
 ```
 Notes:
-- The IP address used here is public IP address of the AWS instances.
+- The IP address used here is public IP address of the instances.
 - For single node setup IP address will be same for master and worker nodes.
 
 ## Master Configuration
+
+The master node manages the worker nodes and the Pods in the cluster. In production environments, the master node usually runs across multiple computers and a cluster usually runs multiple nodes, providing fault-tolerance and high availability.
 
 Install k3s using following command
 
@@ -92,6 +94,8 @@ Tasks: 102
 ```
 
 ## Worker Configuration
+
+A Kubernetes cluster consists of a set of worker machines, called nodes, that run containerized applications. Every cluster has at least one worker node. The worker node(s) host the Pods that are the components of the application workload.
 
 Get k3s token from Master node using following command
 
@@ -152,7 +156,9 @@ NAME STATUS ROLES AGE VERSION
 ip-10-0-0-48 Ready control-plane,master 105m v1.24.6+k3s
 ip-10-0-0-253 Ready <none> 2m29s v1.24.6+k3s
 ```
-## Pull images from insecure registry
+## Images
+
+### Pull from insecure registry
 
 Add following lines in all the nodes (master + worker) in
 
@@ -180,5 +186,6 @@ Reference: https://docs.k3s.io/installation/private-registry#without-tls
 
 Please note that in case of single node setup this should be done on only the master node.
 
+### Create from Dockerfile
 
-
+TODO: Details will be added later.

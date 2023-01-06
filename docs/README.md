@@ -13,7 +13,7 @@ Documentation for setting up FogLAMP Manage and FogLAMP in the Kubernetes enviro
 - [X] Use secrets for storing passwords
 - [X] Use persistent volumes
 - [X] Setup multi-node cluster
-- [ ] Check foglamp with postgres in Kubernetes environment
+- [ ] Check FogLAMP with postgres in Kubernetes environment
 - [ ] Check networking setup with NodePort/LoadBalancer.
 - [ ] Setup of Kubernetes with Dockerfile/s
 

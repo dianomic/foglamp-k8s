@@ -27,3 +27,7 @@
 
 - Delete pod
     > sudo kubectl delete pod fogman-pod
+
+Reference:
+
+- https://kubernetes.io/docs/tasks/debug/debug-application/
