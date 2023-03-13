@@ -31,6 +31,20 @@ So based on the above study we chose to proceed with K3s for our problem stateme
 - Multi node setup: Multiple seperate nodes are configured to setup Kubernetes master, FogLAMP and FogLAMP Manage.
 In this documentation we have setup three Ubuntu 18.04 instances with 4 GB RAM (t2.medium AWS instances) - One master node and two worker nodes for fogman and foglamp each.
 
+  Note: Deployments in this repo can be used in local environment as well.
+
+## Networking
+- To expose services running on pods to external network a service is required that maps different ip/ports running on cluster to external network. This can be acheived by creating a service of type: LoadBalancer.
+
+- Default K3s installation comes with it's own CCM and Load Balancer(ServiceLB). Using default installation looses the ability to integrate with AWS as we cannot use AWS load balancers by default. To be able to use AWS Cloud Provider we'll need to disable default CCM along with ServiceLB and Traefik. 
+
+  ```
+
+  curl -sfL https://get.k3s.io |INSTALL_K3S_EXEC="server" sh -s - --disable-cloud-controller --disable=servicelb --disable=traefik
+  ```
+
+  Post installation, you can choose your external CCM based on infrastructure being used that will interact with cloud providers API and create a LoadBalancer service with IP assigned by cloud provider for outside access.
+
 ## Prerequisites
 
 Add the IP address along with tag in the /etc/hosts file on all the machines (both master and worker nodes)

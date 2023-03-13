@@ -5,7 +5,7 @@ metadata:
   labels:
     name: foglamp-manage
 spec:
-  type: NodePort
+  type: LoadBalancer
   ports:
   - port: 5000
     targetPort: 5000

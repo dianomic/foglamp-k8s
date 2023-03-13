@@ -25,8 +25,12 @@
 - Dump pod container logs (stdout, multi-container case)
     > sudo kubectl logs fogman-pod -c fogman
 
-- Delete pod
+- Delete pod/service/deployment
     > sudo kubectl delete pod fogman-pod
+
+    > sudo kubectl delete service foglamp-manage
+    
+    > sudo kubectl delete deployment fogman-deployment
 
 Reference:
 

@@ -16,7 +16,7 @@ spec:
     spec:    
         containers:
             - name: fogman-db
-              image: 54.204.128.201:5000/foglamp-manage-db:test-k8s
+              image: 54.204.128.201:5000/foglamp-manage-db:nightly-ubuntu1804
               ports:
               - containerPort: 5432
               env:
@@ -41,7 +41,7 @@ spec:
                 name: foglamp-manage-db
                 subPath: postgres
             - name: fogman
-              image: 54.204.128.201:5000/foglamp-manage:test-k8s
+              image: 54.204.128.201:5000/foglamp-manage:nightly-ubuntu1804
               ports:
               - containerPort: 5000
               - containerPort: 5001

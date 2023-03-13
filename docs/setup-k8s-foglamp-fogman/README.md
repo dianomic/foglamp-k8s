@@ -123,5 +123,14 @@ ubuntu@ip:~/test/k8s/fogman$ echo -n 'testPassword' | base64
 dGVzdFBhc3N3b3Jk
 ```
 
+## Networking Issues
+
+If you try to create a LoadBalancer Service that listens on port 80, the ServiceLB will try to find a free host in the cluster for port 80. If no host with that port is available, the LB will remain Pending.
+
+```
+
+NAME      TYPE           CLUSTER-IP      EXTERNAL-IP   PORT(S)                                      AGE
+foglamp   LoadBalancer   10.43.111.149   <pending>     8081:30649/TCP,1995:31932/TCP,80:31456/TCP   2d
+```
 
 
